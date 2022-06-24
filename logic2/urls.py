@@ -15,9 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from core.views import double3
+from core.views import double3, double_save, double_list
 
 urlpatterns = [
+    path('double_save', double_save, name='double_save'),
+    path('double_list', double_list, name='double_list'),
     path('', double3, name='double2'),
     path('admin/', admin.site.urls),
 ]
