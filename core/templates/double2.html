@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>Double</h1>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <label >Value</label>
+        <input type="number" name="valueuser" id=""> <br><br>
+        <button type="submit">Calculate</button>
+    </form>
+
+            <h3>Value double: </h3>{{ double }}
+
+</body>
+</html>
