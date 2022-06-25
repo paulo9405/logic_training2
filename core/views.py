@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from .forms import DoubleForm
 from .models import DoubleSave
+import re
+
 
 
 def double3(request):
@@ -20,11 +22,30 @@ def double_list(request):
 
 def double_save(request):
     form = DoubleForm(request.POST or None)
+    data = form.data.get('name')
+    regex = re.compile('[@_!#$%^&*()<>?/\|}{~:]')
 
-    if form.is_valid():
+    if form.is_valid() and (regex.search(data) == None) :
         form.save()
         return redirect('double_list')
 
+    elif form.is_valid() and (regex.search(data) != None) :
+        erro = "Please Don't use character!"
+        return render(request, 'double_save.html', {'form': form, 'erro': erro})
+
     return render(request, 'double_save.html', {'form': form})
+#
+
+
+# def double_save(request):
+#     form = DoubleForm(request.POST or None)
+#     # regex = re.compile('[@_!#$%^&*()<>?/\|}{~:]')
+#
+#     # if (regex.search(n) == None) and form.is_valid():
+#     if form.is_valid():
+#         form.save()
+#         return redirect('double_list')
+#
+#     return render(request, 'double_save.html', {'form': form})
 
 

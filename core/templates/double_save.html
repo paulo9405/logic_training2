@@ -6,6 +6,9 @@
 </head>
 <body>
     <h1>New</h1>
+    {% if erro %}
+            <h3>{{ erro }}</h3>
+        {% endif %}
     <form method="POST">
         {% csrf_token %}
         {{form}}
