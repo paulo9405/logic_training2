@@ -17,6 +17,9 @@ def double3(request):
 
 def double_list(request):
     double_data = DoubleSave.objects.all()
+    list_value = DoubleSave.objects.values('value')
+    list_names = DoubleSave.objects.values('name')
+
     return render(request, 'double_list.html', {'double_data': double_data})
 
 
@@ -27,8 +30,16 @@ def double_save(request):
     data_value = int(data_val or 0)
     regex = re.compile('[@_!#$%^&*()<>?/\|}{~:]')
 
+    list_names = DoubleSave.objects.values('name')
+    result_names = [str(v) for lst in list_names for k, v in lst.items()]
 
-    if data_value > 1000 or data_value < -1000:
+    list_value = DoubleSave.objects.values('value')
+    result_value = [v for lst in list_value for k, v in lst.items()]
+
+    if data_name in result_names and data_value in result_value:
+        return redirect('double_list')
+
+    elif data_value > 1000 or data_value < -1000:
         erro_value = "Please the maximum value is 1000 and the minimum is -1000."
         return render(request, 'double_save.html', {'form': form, 'erro_value': erro_value})
 
@@ -41,42 +52,3 @@ def double_save(request):
         return redirect('double_list')
 
     return render(request, 'double_save.html', {'form': form})
-
-
-
-
-# def double_save(request):
-#     form = DoubleForm(request.POST or None)
-#     data_name = form.data.get('name')
-#     data_value = form.data.get('value')
-#     regex = re.compile('[@_!#$%^&*()<>?/\|}{~:]')
-#
-#     if form.is_valid() and (regex.search(data_name) == None) :
-#         form.save()
-#         return redirect('double_list')
-
-#     elif form.is_valid() and (regex.search(data_name) != None) :
-#         erro = "Please Don't use character!"
-#         return render(request, 'double_save.html', {'form': form, 'erro': erro})
-#
-#     return render(request, 'double_save.html', {'form': form})
-
-
-# def double_save(request):
-#     form = DoubleForm(request.POST or None)
-#     data = form.data.get('name')
-#     # regex = ('[@_!#$%^&*()<>?/\|}{~:]')
-#     regex = ['@', '_', '!', '#', '$',
-#                        '%', '^', '&', '*', '()',
-#                        '<', '>', '?', '/\|', '}',
-#                        '{', '~', ':']
-#     for i in regex:
-#         if form.is_valid() and i not in data:
-#             form.save()
-#             return redirect('double_list')
-#
-#         elif form.is_valid() and i in data:
-#             erro = "Please Don't use character!"
-#             return render(request, 'double_save.html', {'form': form, 'erro': erro})
-#
-#     return render(request, 'double_save.html', {'form': form})
