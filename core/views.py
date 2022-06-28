@@ -3,8 +3,6 @@ from .forms import DoubleForm
 from .models import DoubleSave
 import re
 
-
-
 def double3(request):
     data = 0
     double = 0
@@ -14,11 +12,8 @@ def double3(request):
 
     return render(request, 'double2.html', {'double': double})
 
-
 def double_list(request):
     double_data = DoubleSave.objects.all()
-    list_value = DoubleSave.objects.values('value')
-    list_names = DoubleSave.objects.values('name')
 
     return render(request, 'double_list.html', {'double_data': double_data})
 
@@ -37,7 +32,10 @@ def double_save(request):
     result_value = [v for lst in list_value for k, v in lst.items()]
 
     if data_name in result_names and data_value in result_value:
-        return redirect('double_list')
+        data_name = form.data.get('name')
+        data_hr = DoubleSave.objects.filter(name=data_name)
+        data_3 = data_hr[0].date
+        return render(request, 'double_already.html', {'data_name': data_name, 'data_val': data_val, 'data_3': data_3})
 
     elif data_value > 1000 or data_value < -1000:
         erro_value = "Please the maximum value is 1000 and the minimum is -1000."

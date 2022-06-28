@@ -10,10 +10,14 @@
   <ul>
       {% for item in double_data %}
 
-          <li>User: {{ item.name }} | Value: {{ item.value }} | Double value: {{ item.double_value }}</li>
+          <li>User: {{ item.name }} | Value: {{ item.value }} | Double value: {{ item.double_value }} | | Double value: {{ item.double_value }}</li>
 
         {% endfor %}
     </ul>
+
+
+
+
 
 <a href="{% url 'double_save' %}">doble save</a>
 </body>
