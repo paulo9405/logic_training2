@@ -33,9 +33,12 @@ def double_save(request):
 
     if data_name in result_names and data_value in result_value:
         data_name = form.data.get('name')
-        data_hr = DoubleSave.objects.filter(name=data_name)
+        data_hr = DoubleSave.objects.filter(name=data_name, value=data_val)
         data_3 = data_hr[0].date
-        return render(request, 'double_already.html', {'data_name': data_name, 'data_val': data_val, 'data_3': data_3})
+        data_4 = data_hr[1].value
+        return render(request, 'double_already.html',
+                      {'data_name': data_name, 'data_val': data_val,
+                       'data_3': data_3, 'data_4': data_4})
 
     elif data_value > 1000 or data_value < -1000:
         erro_value = "Please the maximum value is 1000 and the minimum is -1000."
